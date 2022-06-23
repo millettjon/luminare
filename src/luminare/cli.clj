@@ -46,32 +46,38 @@
       inc
       (mod LEVELS)))
 
+(defn cycle!
+  []
+  (let [old-level (get-level)
+        new-level (cycle old-level)]
+    (println (format "set level to %d/%d" (inc new-level) LEVELS))
+    (set-level new-level)))
+
 ;; Ref: http://docopt.org/
 (def usage
-  "lum - manage lumination
+  "lum - cycle screen lumination level
 
 Usage:
-  lum cycle [--levels=<levels>]
+  lum [options]
 
 Options:
-  --levels=<levels>  Number of levels to cycle through [default: 3]
+  -h --help             Display this message
+  -l --levels=<levels>  Number of levels to cycle through [default: 3]
   ")
 
 (defn dispatch
   [arg-map]
-  (prn :arg-map arg-map)
 
   (when-let [levels (arg-map "--levels")]
     (alter-var-root #'LEVELS (constantly (Integer/parseInt levels))))
-  (prn LEVELS)
 
-  (cond
-    (arg-map "cycle")
-    (-> (get-level) cycle set-level)))
+  (condp #(get %2 %) arg-map
+    "--help" (println usage)
+
+    (cycle!)))
 
 (defn -main
   [& args]
-  (prn :args args)
   (docopt/docopt
    usage
    args

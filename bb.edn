@@ -8,6 +8,6 @@
  {lum {:doc  "manage lumination"
        :task luminare.cli/-main}
 
-  outdated bbyaga.tasks/antq
-  nrepl    bbyaga.tasks/nrepl
-  wrap     bbyaga.tasks/wrap}}
+  outdated bbyaga.task/outdated
+  nrepl    bbyaga.task/nrepl
+  wrap     bbyaga.task/wrap}}
